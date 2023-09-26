@@ -16,8 +16,6 @@ class User(AbstractBaseUser, PermissionsMixin, AbstractDateTimeModel):
     name = models.CharField(
         _('name'),
         max_length=200,
-        null=True,
-        blank=True,
     )
     is_superuser = models.BooleanField(
         _('superuser'),

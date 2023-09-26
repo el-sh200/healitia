@@ -28,6 +28,7 @@ ALLOWED_HOSTS = [
     'https://healitia-backend.iran.liara.run',
     'www.api.healitia.ir',
     'api.healitia.ir',
+    '127.0.0.1',
 ]
 
 # Application definition
