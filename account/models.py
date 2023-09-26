@@ -44,3 +44,46 @@ class User(AbstractBaseUser, PermissionsMixin, AbstractDateTimeModel):
 
     def __str__(self):
         return self.email
+
+
+class Profile(AbstractDateTimeModel):
+    MALE = 1
+    FEMALE = 2
+    GENDER_CHOICE = (
+        (MALE, 'Male'),
+        (FEMALE, 'Female'),
+    )
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        verbose_name=_('user'),
+    )
+    gender = models.PositiveSmallIntegerField(
+        choices=GENDER_CHOICE,
+        default=MALE,
+        verbose_name=_('gender')
+    )
+    age = models.PositiveSmallIntegerField(
+        default=MALE,
+        null=True,
+        blank=True,
+        verbose_name=_('gender')
+    )
+    height = models.PositiveSmallIntegerField(
+        null=True,
+        blank=True,
+        verbose_name=_('height')
+    )
+    weight = models.PositiveSmallIntegerField(
+        null=True,
+        blank=True,
+        verbose_name=_('weight')
+    )
+
+    class Meta:
+        ordering = ('-created',)
+        verbose_name = _('profile')
+        verbose_name_plural = _('profiles')
+
+    def __str__(self):
+        return self.user
