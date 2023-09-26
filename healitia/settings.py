@@ -24,7 +24,11 @@ SECRET_KEY = 'django-insecure-#@tb+a29j9*l4yumf0fh9^uz=!n3=an0v65as$=(cx9-lhh5x1
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'https://healitia-backend.iran.liara.run',
+    'www.api.healitia.ir',
+    'api.healitia.ir',
+]
 
 # Application definition
 
@@ -38,6 +42,8 @@ INSTALLED_APPS = [
 
     # Local apps
     'account.apps.AccountConfig',
+    'rest_framework',
+    'rest_framework.authtoken'
 ]
 
 MIDDLEWARE = [
@@ -122,3 +128,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # AUTHENTICATION USER MODEL
 AUTH_USER_MODEL = 'account.User'
+
+# REST CONFIGURATION
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+}
