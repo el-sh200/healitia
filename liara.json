@@ -1,0 +1,8 @@
+{
+  "platform": "django",
+  "django": {
+    "pythonVersion": "3.10",
+    "mirror": false
+  },
+  "app": "healitia-api"
+}
