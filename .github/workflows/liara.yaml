@@ -17,6 +17,6 @@ jobs:
           LIARA_TOKEN: ${{ secrets.LIARA_API_TOKEN }}
         run: |
           npm i -g @liara/cli@4
-          liara deploy --app="" --api-token="$LIARA_TOKEN" --detach --port=8000
+          liara deploy --app="healitia-backend" --api-token="$LIARA_TOKEN" --detach --port=8000
           sleep 60
           liara shell --app="healitia-backend" --command "python manage.py migrate" --api-token="$LIARA_TOKEN"
