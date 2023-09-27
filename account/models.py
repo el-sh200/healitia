@@ -84,4 +84,4 @@ class Profile(AbstractDateTimeModel):
         verbose_name_plural = _('profiles')
 
     def __str__(self):
-        return self.user
+        return self.user.email

@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 # Local apps
-from .models import User
+from .models import User, Profile
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -18,3 +18,14 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'email', 'password', 'name']
+
+
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        exclude = ('user',)
+
+    def create(self, validated_data):
+        user = self.context['request'].user
+        profile, created = Profile.objects.get_or_create(user=user, **validated_data)
+        return profile

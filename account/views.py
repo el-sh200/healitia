@@ -1,11 +1,17 @@
 # Django Built-in modules
+from django.http import Http404
+from django.contrib.auth import authenticate, login
+
+# Local apps
+from .models import Profile
+from .serializers import UserSerializer, ProfileSerializer
+
+# Third party
+from rest_framework.authtoken.models import Token
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
-from django.contrib.auth import authenticate, login
-from .serializers import UserSerializer
-from rest_framework.authtoken.models import Token
 
 
 class SignupView(APIView):
@@ -15,9 +21,9 @@ class SignupView(APIView):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.save()
-            token = Token.objects.create(user=user)
-
             if user:
+                token = Token.objects.create(user=user)
+                Profile.objects.create(user=user)
                 return Response({'token': token.key}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -36,3 +42,23 @@ class LoginView(APIView):
             return Response({'token': token.key}, status=status.HTTP_200_OK)
         else:
             return Response({'message': 'Invalid credentials.'}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+class ProfileView(APIView):
+    def get_object(self, pk):
+        try:
+            return Profile.objects.get(pk=pk)
+        except Profile.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk):
+        profile = self.get_object(pk)
+        serializer = ProfileSerializer(profile)
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer = ProfileSerializer(data=request.data, context={'request': request}, instance=request.user.profile)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
