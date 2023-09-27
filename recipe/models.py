@@ -5,6 +5,7 @@ from django.db import models
 
 from django.utils.translation import gettext_lazy as _
 
+from account.models import User
 from utils.models import AbstractDateTimeModel
 
 
@@ -120,3 +121,26 @@ class InstructionStep(AbstractDateTimeModel):
 
     def __str__(self):
         return f"Step {self.order} for {self.recipe.title}"
+
+
+class FavoriteRecipe(AbstractDateTimeModel):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        verbose_name=_('user')
+    )
+    recipe = models.ForeignKey(
+        Recipe,
+        on_delete=models.CASCADE,
+        verbose_name=_('recipe'),
+    )
+    timestamp = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name=_('timestamp')
+    )
+
+    class Meta:
+        unique_together = ('user', 'recipe')
+
+    def __str__(self):
+        return f"{self.user.email}'s favorite - {self.recipe.title}"

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Ingredient, Cuisine, Recipe, RecipeItem, InstructionStep
+from .models import Ingredient, Cuisine, Recipe, RecipeItem, InstructionStep, FavoriteRecipe
 
 
 class IngredientSerializer(serializers.ModelSerializer):
@@ -58,3 +58,11 @@ class RecipeSerializer(serializers.ModelSerializer):
         if obj.cover:
             return request.build_absolute_uri(obj.cover.url)
         return None
+
+
+class FavoriteRecipeSerializer(serializers.ModelSerializer):
+    recipe = RecipeSerializer(many=True)
+
+    class Meta:
+        model = FavoriteRecipe
+        fields = ['id', 'recipe']
