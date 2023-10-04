@@ -33,13 +33,13 @@ ALLOWED_HOSTS = [
 
 CORS_ALLOWED_ORIGINS = [
     'https://healitia-backend.iran.liara.run',
-    'www.api.healitia.ir',
-    'api.healitia.ir',
-    '127.0.0.1:8000',
-    'localhost:3000',
+    'https://www.api.healitia.ir',
+    'https://api.healitia.ir',
+    'http://127.0.0.1:8000',
+    'http://localhost:3000',
     'https://healitia.iran.liara.run',
-    'www.healitia.ir',
-    'healitia.ir',
+    'https://www.healitia.ir',
+    'https://healitia.ir',
 ]
 
 # Application definition
