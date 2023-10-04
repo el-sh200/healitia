@@ -36,6 +36,10 @@ CORS_ALLOWED_ORIGINS = [
     'www.api.healitia.ir',
     'api.healitia.ir',
     '127.0.0.1:8000',
+    'localhost:3000',
+    'https://healitia.iran.liara.run',
+    'www.healitia.ir',
+    'healitia.ir',
 ]
 
 # Application definition
