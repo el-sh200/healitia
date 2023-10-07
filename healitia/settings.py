@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     # Local apps
     'account.apps.AccountConfig',
     'recipe.apps.RecipeConfig',
+    'subscribers.apps.SubscribersConfig',
 
     # Third party
     'rest_framework',

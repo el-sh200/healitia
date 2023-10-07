@@ -24,4 +24,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/accounts/', include('account.urls', namespace='account')),
     path('api/recipe/', include('recipe.urls', namespace='recipe')),
+    path('api/subscribers/', include('subscribers.urls', namespace='subscribers')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
