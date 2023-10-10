@@ -21,6 +21,9 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class ProfileSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField(source='user.email', read_only=True)
+    name = serializers.CharField(source='user.name', read_only=True)
+
     class Meta:
         model = Profile
         exclude = ('user',)
