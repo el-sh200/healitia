@@ -40,6 +40,7 @@ class FavoriteRecipeListAPIView(APIView):
 class FavoriteRecipeDetailAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
+
     def post(self, request, recipe_id):
         return self.toggle_favorite(request, recipe_id, is_favorite=True)
 

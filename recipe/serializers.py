@@ -48,10 +48,17 @@ class RecipeSerializer(serializers.ModelSerializer):
     cuisines = CuisineSerializer(many=True)
     steps = InstructionStepSerializer(many=True)
     cover_url = serializers.SerializerMethodField()
+    is_bookmarked = serializers.SerializerMethodField()
 
     class Meta:
         model = Recipe
         exclude = ('ingredients',)
+
+    def get_is_bookmarked(self, instance):
+        user = self.context['request'].user
+        if user.is_authenticated:
+            return FavoriteRecipe.objects.filter(user=user, recipe=instance).exists()
+        return False
 
     def get_cover_url(self, obj):
         request = self.context.get('request')
