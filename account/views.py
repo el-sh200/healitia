@@ -11,7 +11,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 
 
 class SignupView(APIView):
@@ -45,14 +45,16 @@ class LoginView(APIView):
 
 
 class ProfileView(APIView):
+    permission_classes = [IsAuthenticated]
+
     def get_object(self, pk):
         try:
             return Profile.objects.get(pk=pk)
         except Profile.DoesNotExist:
             raise Http404
 
-    def get(self, request, pk):
-        profile = self.get_object(pk)
+    def get(self, request):
+        profile = request.user.profile
         serializer = ProfileSerializer(profile)
         return Response(serializer.data)
 
