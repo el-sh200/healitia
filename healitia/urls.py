@@ -25,4 +25,5 @@ urlpatterns = [
     path('api/accounts/', include('account.urls', namespace='account')),
     path('api/recipe/', include('recipe.urls', namespace='recipe')),
     path('api/subscribers/', include('subscribers.urls', namespace='subscribers')),
+    path('api/blog/', include('blog.urls', namespace='blog')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
