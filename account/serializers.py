@@ -22,7 +22,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 class ProfileSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(source='user.email', read_only=True)
-    name = serializers.CharField(source='user.name', read_only=True)
+    name = serializers.CharField(source='user.name', required=False)
 
     class Meta:
         model = Profile
@@ -32,3 +32,18 @@ class ProfileSerializer(serializers.ModelSerializer):
         user = self.context['request'].user
         profile, created = Profile.objects.get_or_create(user=user, **validated_data)
         return profile
+
+    def update(self, instance, validated_data):
+        # Update the related user instance if necessary
+        user_data = validated_data.pop('user', {})
+        user = instance.user
+        for attr, value in user_data.items():
+            setattr(user, attr, value)
+        user.save()
+
+        # Update the profile instance
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+
+        return instance
