@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
@@ -37,9 +38,18 @@ class FavoriteRecipeListAPIView(APIView):
         return Response(serializer.data)
 
 
+class FavoriteRetrieveAPIView(APIView):
+
+    def get(self, request, recipe_id):
+        if request.user.is_authenticated:
+            result = FavoriteRecipe.objects.filter(user=request.user, recipe_id=recipe_id).exists()
+        else:
+            result = False
+        return JsonResponse({'result': result}, status=status.HTTP_200_OK)
+
+
 class FavoriteRecipeDetailAPIView(APIView):
     permission_classes = [IsAuthenticated]
-
 
     def post(self, request, recipe_id):
         return self.toggle_favorite(request, recipe_id, is_favorite=True)

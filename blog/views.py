@@ -48,6 +48,16 @@ class BookmarkCreateAPIView(APIView):
         return JsonResponse({'message': 'deleted'}, status=status.HTTP_200_OK)
 
 
+class BookmarkRetrieveAPIView(APIView):
+
+    def get(self, request, post_id):
+        if request.user.is_authenticated:
+            result = Bookmark.objects.filter(user=request.user, post_id=post_id).exists()
+        else:
+            result = False
+        return JsonResponse({'result': result}, status=status.HTTP_200_OK)
+
+
 class BookmarkListAPIView(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = BookmarkSerializer
